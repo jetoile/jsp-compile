@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Webapp Precompilation" default="all" basedir=".">
+
+
+    <property name="webapp.path" value="${basedir}/src/main/webapp" />
+    <property name="jsp.dest.compile" value="${basedir}/target/jsp-generated"/>
+    <property name="jsp.dest" value="${basedir}/target/jsp"/>
+    <property name="tomcat.home" value="/opt/apache-tomcat-7.0.23"/>
+    <!--<property name="tomcat.home" value="/usr/local/tomcat60"/>-->
+
+    <import file="${tomcat.home}/bin/catalina-tasks.xml"/>
+
+    <target name="jspc">
+
+        <jasper
+                validateXml="false"
+                uriroot="${webapp.path}"
+                webXmlFragment="${basedir}/target/generated_web.xml"
+                outputDir="${jsp.dest}"
+                compiler="${java.version}"
+                compilersourcevm="${java.version}"
+                compilertargetvm="${java.version}"
+                failonerror="true"
+                verbose="9"/>
+    </target>
+
+    <target name="compile">
+
+        <mkdir dir="${jsp.dest}"/>
+        <mkdir dir="${jsp.dest.compile}"/>
+
+        <!--<echo message="${maven.dependencies.classpath}"/>-->
+
+        <javac destdir="${jsp.dest.compile}"
+               optimize="off"
+               fork="true"
+               failonerror="true"
+               srcdir="${jsp.dest}"
+               memoryinitialsize="1024m"
+               memoryMaximumSize="1024m">
+            <classpath>
+                <path path="${maven.dependencies.classpath}"/>
+            </classpath>
+            <include name="**" />
+            <exclude name="**/redirect_005fmedia*_jsp.java"/>
+        </javac>
+
+    </target>
+
+    <target name="all" depends="jspc,compile">
+    </target>
+
+</project>

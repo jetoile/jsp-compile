@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.jetoile</groupId>
+    <artifactId>jsp-compile</artifactId>
+
+    <packaging>war</packaging>
+    <version>1.0</version>
+
+    <profiles>
+        <profile>
+            <id>jsp-compile</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>pre-compile-jsp</id>
+                                <phase>test</phase>
+                                <configuration>
+                                    <target name="pre-compile-jsp">
+                                        <property name="maven.dependencies.classpath" refid="maven.test.classpath"/>
+                                        <ant antfile="${basedir}/build.xml">
+                                            <target name="all"/>
+                                        </ant>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <!-- http://docs.codehaus.org/display/MAVENUSER/Running+ant+tasks+that+use+the+JDK -->
+                            <dependency>
+                                <groupId>com.sun</groupId>
+                                <artifactId>tools</artifactId>
+                                <version>1.6.0</version>
+                                <scope>system</scope>
+                                <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                            </dependency>
+
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>jasper</artifactId>
+                                <version>6.0.35</version>
+                            </dependency>
+
+                            <dependency>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>jsp-api</artifactId>
+                                <version>6.0.35</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>opensymphony</groupId>
+                                <artifactId>sitemesh</artifactId>
+                                <version>2.4.2</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+
+                    <!-- pas d'utilisation du plugin maven-jspc a cause de sitemesh/decorateur -->
+                    <!--<plugin>-->
+                    <!--<groupId>org.mortbay.jetty</groupId>-->
+                    <!--<artifactId>jetty-jspc-maven-plugin</artifactId>-->
+                    <!--&lt;!&ndash;<version>6.1.26</version>&ndash;&gt;-->
+                    <!--<executions>-->
+                    <!--<execution>-->
+                    <!--<id>pre-compile-jsp</id>-->
+                    <!--<goals>-->
+                    <!--<goal>jspc</goal>-->
+                    <!--</goals>-->
+                    <!--<phase>test</phase>-->
+                    <!--<configuration>-->
+                    <!--<includes>-->
+                    <!--</includes>-->
+                    <!--<excludes>-->
+                    <!--&lt;!&ndash;jsp/publi/recherche_offres_body.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/publi/html/accueil_recrutent.carriere.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/candidate/include/col_gauche.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/perso/selection_offres_alerte_cv.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/perso/creation_alerte_cadremploi.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/encart_pub_megabanniere.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/encart_pub_skyscrapper.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/tags_adserver.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/footer.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/home_main_test.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/flux_event_home.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/flux_event_home_b.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/flux_event_home_b.dist.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/tags_adserver.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/tags_adserver_cible.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/include/home_main.jsp,&ndash;&gt;-->
+                    <!--&lt;!&ndash;jsp/TestsUtilisateurs/recherche_test7.jsp&ndash;&gt;-->
+                    <!--</excludes>-->
+                    <!--<verbose>true</verbose>-->
+                    <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--</executions>-->
+                    <!--</plugin>-->
+
+                </plugins>
+            </build>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>jasper</artifactId>
+                    <version>6.0.35</version>
+                    <scope>test</scope>
+                </dependency>
+
+
+                <dependency>
+                    <groupId>opensymphony</groupId>
+                    <artifactId>sitemesh</artifactId>
+                    <version>2.4.2</version>
+                    <scope>test</scope>
+                </dependency>
+
+            </dependencies>
+        </profile>
+
+
+    </profiles>
+</project>
